@@ -13,6 +13,10 @@ synthetic dataset.
 - **Campaign details:** search by campaign name or ID and export a summary CSV.
 - **Time series:** daily, weekly, and monthly trends by platform.
 - **Shared filters:** date range, platform, audience, and campaign goal.
+- **Reset Filters:** restore the current dataset's full date range and all categories.
+- **Campaign funnel:** impressions, clicks, and conversions with stage-retention rates.
+- **Top campaigns:** up to five campaigns ranked by Ad ROI over the selected dates.
+- **CSV caching:** cache the sample by content and uploaded data within its user session.
 - **Data validation:** clear messages for missing fields, invalid values,
   duplicate records, and inconsistent campaign metadata.
 
@@ -38,6 +42,7 @@ Open the local URL printed by Streamlit, usually `http://localhost:8501`.
 ├── campaign_analyzer/
 │   ├── config.py                  # Schema, labels, and asset paths
 │   ├── data.py                    # CSV ingestion and validation
+│   ├── cache.py                   # Sample and session-specific upload caches
 │   ├── metrics.py                 # Totals and efficiency calculations
 │   ├── filters.py                 # Shared filters, search, and time aggregation
 │   ├── charts.py                  # Plotly figure builders
@@ -102,6 +107,8 @@ The application entry point is `app.py` at the repository root. Install
 `requirements.txt` and launch it with `streamlit run app.py`. When using a hosted
 Streamlit service, select Python 3.12 and the root-level entry point. Application
 paths resolve relative to the repository, so the sample dataset stays portable.
+See the [online deployment guide](docs/deployment.md) for the GitHub coordinates
+and Streamlit Community Cloud setup.
 
 The bundled CSV is public-safe synthetic data. Local virtual environments,
 Python caches, `.env` files, Streamlit secrets, and `data/private/` are excluded

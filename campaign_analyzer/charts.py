@@ -52,3 +52,33 @@ def trend_chart(trend: pd.DataFrame, measure: str) -> go.Figure:
         labels={"period_start": "Period start", measure: label},
         title=f"{label} over time",
     )
+
+
+def funnel_chart(df: pd.DataFrame) -> go.Figure:
+    """Show the measured funnel with readable counts and stage retention."""
+    values = [int(df[column].sum()) for column in ["impressions", "clicks", "conversions"]]
+    stages = ["Impressions", "Clicks", "Conversions"]
+    labels = []
+    for index, value in enumerate(values):
+        if index == 0:
+            retention = "starting stage"
+        else:
+            previous = values[index - 1]
+            retention = f"{value / previous:.1%} of prior stage" if previous else "retention N/A"
+        labels.append(f"{value:,} ({retention})")
+    fig = go.Figure(
+        go.Funnel(
+            y=stages,
+            x=values,
+            text=labels,
+            textinfo="text",
+            textposition="outside",
+            textfont=dict(color="#0f172a"),
+            marker=dict(color=["#2563eb", "#0891b2", "#059669"]),
+            hovertemplate="%{y}: %{x:,.0f}<extra></extra>",
+        )
+    )
+    # Funnel area shows actual magnitudes; the table beneath preserves readability
+    # when a late stage is too small for its in-chart label.
+    fig.update_layout(title="Campaign conversion funnel", margin=dict(l=110, r=240), height=350)
+    return fig

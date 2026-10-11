@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from campaign_analyzer.config import DERIVED_METRICS, MEASURES
+from campaign_analyzer.config import DERIVED_METRICS, DIMENSIONS, MEASURES
 
 
 def metrics(totals: dict[str, float]) -> dict[str, float]:
@@ -30,3 +30,12 @@ def aggregate(df: pd.DataFrame, dimensions: list[str]) -> pd.DataFrame:
         return totals.reindex(columns=[*dimensions, *MEASURES, *DERIVED_METRICS])
     result = pd.DataFrame(derived)
     return pd.concat([totals[dimensions].reset_index(drop=True), result], axis=1)
+
+
+def top_campaigns(df: pd.DataFrame, limit: int = 5) -> pd.DataFrame:
+    """Rank campaign-level ROI over the selected dates, excluding zero spend."""
+    summary = aggregate(df, DIMENSIONS)
+    eligible = summary[summary["spend"] > 0]
+    return eligible.sort_values(
+        ["Ad ROI (%)", "conversions", "campaign_id"], ascending=[False, False, True]
+    ).head(limit)

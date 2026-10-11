@@ -5,10 +5,15 @@ import math
 import pandas as pd
 import streamlit as st
 
-from campaign_analyzer.charts import platform_chart, spend_conversions_chart, trend_chart
+from campaign_analyzer.charts import (
+    funnel_chart,
+    platform_chart,
+    spend_conversions_chart,
+    trend_chart,
+)
 from campaign_analyzer.config import DIMENSIONS, MEASURES
 from campaign_analyzer.filters import search_campaigns, time_series
-from campaign_analyzer.metrics import aggregate, metrics
+from campaign_analyzer.metrics import aggregate, metrics, top_campaigns
 from campaign_analyzer.ui.components import chart, table
 
 
@@ -31,6 +36,27 @@ def render_overview(filtered: pd.DataFrame) -> None:
     chart(spend_conversions_chart(daily))
     st.subheader("Efficiency metrics")
     table(pd.DataFrame([{k: totals[k] for k in ["CTR (%)", "CVR (%)", "CPC (USD)", "CPA (USD)"]}]))
+    st.subheader("Top 5 campaigns by Ad ROI")
+    leaders = top_campaigns(filtered)
+    if leaders.empty:
+        st.info("No campaigns with positive spend are available to rank.")
+    else:
+        table(
+            leaders[
+                [
+                    "campaign_id",
+                    "campaign_name",
+                    "platform",
+                    "campaign_goal",
+                    "spend",
+                    "conversions",
+                    "Ad ROI (%)",
+                ]
+            ]
+        )
+    st.caption(
+        "Ranked over the selected dates. Zero-spend campaigns are excluded. Compare matching goals and audiences."
+    )
 
 
 def render_platforms(filtered: pd.DataFrame) -> None:
@@ -61,6 +87,25 @@ def render_campaigns(filtered: pd.DataFrame) -> None:
             "campaign_summary.csv",
             "text/csv",
         )
+    st.subheader("Campaign funnel")
+    st.caption(
+        "Uses all campaigns matching the sidebar filters; the table search does not change the funnel."
+    )
+    chart(funnel_chart(filtered))
+    totals = filtered[["impressions", "clicks", "conversions"]].sum()
+    counts = [int(totals.impressions), int(totals.clicks), int(totals.conversions)]
+    retention = ["—"] + [f"{b / a:.1%}" if a else "N/A" for a, b in zip(counts, counts[1:])]
+    st.dataframe(
+        pd.DataFrame(
+            {
+                "Stage": ["Impressions", "Clicks", "Conversions"],
+                "Count": counts,
+                "Retention from prior stage": retention,
+            }
+        ),
+        hide_index=True,
+        width="stretch",
+    )
 
 
 def render_time_series(filtered: pd.DataFrame) -> None:
