@@ -3,6 +3,9 @@
 The app runs as a Python server. GitHub stores the source code; a hosting
 service runs it and provides the browser URL.
 
+Live deployment: https://ad-campaign-performance-analyzer-venuhayzer.streamlit.app/
+The published app tracks the GitHub `main` branch.
+
 ## Streamlit Community Cloud
 
 Deploy the existing GitHub project without changing its framework:

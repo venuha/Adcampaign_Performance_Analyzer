@@ -4,6 +4,8 @@ A Streamlit dashboard for comparing advertising performance across channels,
 campaigns, audiences, and time. Upload a campaign CSV or explore the included
 synthetic dataset.
 
+**Live app:** [Open Ad Campaign Performance Analyzer](https://ad-campaign-performance-analyzer-venuhayzer.streamlit.app/)
+
 ![Dashboard overview](docs/images/dashboard.png)
 
 ## Features
