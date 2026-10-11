@@ -6,7 +6,14 @@ synthetic dataset.
 
 **Live app:** [Open Ad Campaign Performance Analyzer](https://ad-campaign-performance-analyzer-venuhayzer.streamlit.app/)
 
-![Dashboard overview](docs/images/dashboard.png)
+## App previews
+
+Current interface shown at a narrow browser width. Metric cards stack vertically
+on small screens and appear in rows on wider screens.
+
+| Overview | Interactive platform comparison |
+| --- | --- |
+| ![Modern dashboard overview](docs/images/dashboard.png) | ![Altair platform comparison](docs/images/platform-comparison.png) |
 
 ## Features
 
