@@ -11,7 +11,8 @@ synthetic dataset.
 ## Features
 
 - **Overview:** spend, clicks, conversions, attributed revenue, ROAS, and ad ROI.
-- **Platform comparison:** compare channel totals and efficiency metrics.
+- **Platform comparison:** interactive Altair bars with channel highlighting and tooltips.
+- **Modern interface:** gradient header, responsive metric cards, and consistent channel colors.
 - **Campaign details:** search by campaign name or ID and export a summary CSV.
 - **Time series:** daily, weekly, and monthly trends by platform.
 - **Shared filters:** date range, platform, audience, and campaign goal.
@@ -48,9 +49,11 @@ Open the local URL printed by Streamlit, usually `http://localhost:8501`.
 │   ├── metrics.py                 # Totals and efficiency calculations
 │   ├── filters.py                 # Shared filters, search, and time aggregation
 │   ├── charts.py                  # Plotly figure builders
+│   ├── altair_charts.py            # Interactive Altair channel comparison
 │   ├── dashboard.py               # Application orchestration
 │   └── ui/
 │       ├── components.py          # Shared chart/table display
+│       ├── theme.py               # Responsive styling and product header
 │       └── views.py               # Four dashboard views
 ├── data/sample_campaign_data.csv  # Fictional example data
 ├── tests/                        # Unit and Streamlit integration tests

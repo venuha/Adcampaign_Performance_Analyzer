@@ -5,9 +5,9 @@ import math
 import pandas as pd
 import streamlit as st
 
+from campaign_analyzer.altair_charts import channel_comparison
 from campaign_analyzer.charts import (
     funnel_chart,
-    platform_chart,
     spend_conversions_chart,
     trend_chart,
 )
@@ -66,7 +66,10 @@ def render_platforms(filtered: pd.DataFrame) -> None:
         "Compare platforms by",
         ["spend", "conversions", "revenue", "ROAS (x)", "Ad ROI (%)", "CPA (USD)"],
     )
-    chart(platform_chart(grouped, measure))
+    st.altair_chart(channel_comparison(grouped, measure), width="stretch", theme=None)
+    st.caption(
+        "Click a channel in the legend to highlight it. Sidebar filters apply to every view."
+    )
     table(grouped)
     st.caption(
         "Compare campaigns with similar goals and audiences before judging channel efficiency."

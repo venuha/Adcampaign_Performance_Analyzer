@@ -6,6 +6,7 @@ import streamlit as st
 from campaign_analyzer.cache import load_dashboard_data
 from campaign_analyzer.config import SAMPLE_DATA_PATH
 from campaign_analyzer.filters import filter_data
+from campaign_analyzer.ui.theme import apply_theme, render_hero
 from campaign_analyzer.ui.views import (
     render_campaigns,
     render_definitions,
@@ -24,10 +25,8 @@ def reset_filters() -> None:
 def main() -> None:
     """Load and filter the dataset once, then pass it to every view."""
     st.set_page_config(page_title="Ad Campaign Performance Analyzer", page_icon="📊", layout="wide")
-    st.title("Ad Campaign Performance Analyzer")
-    st.caption(
-        "Compare campaign results, explore channels, and track changes over time. Currency: USD."
-    )
+    apply_theme()
+    render_hero()
     with st.sidebar:
         st.header("Data and filters")
         source = st.file_uploader("Upload a campaign CSV", type=["csv"])

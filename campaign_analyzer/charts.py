@@ -7,17 +7,34 @@ from plotly.subplots import make_subplots
 
 from campaign_analyzer.config import METRIC_LABELS
 
+PLATFORM_COLORS = {
+    "Facebook": "#6366f1",
+    "Instagram": "#ec4899",
+    "Pinterest": "#f59e0b",
+    "Twitter": "#14b8a6",
+}
+
 
 def spend_conversions_chart(daily: pd.DataFrame) -> go.Figure:
     """Use separate, labelled axes for USD spend and conversion counts."""
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
-        go.Scatter(x=daily.date, y=daily.spend, name="Spend (USD)", line=dict(color="#2563eb")),
+        go.Scatter(
+            x=daily.date,
+            y=daily.spend,
+            name="Spend (USD)",
+            line=dict(color="#7c3aed", width=3),
+            fill="tozeroy",
+            fillcolor="rgba(124,58,237,0.07)",
+        ),
         secondary_y=False,
     )
     fig.add_trace(
         go.Scatter(
-            x=daily.date, y=daily.conversions, name="Conversions", line=dict(color="#059669")
+            x=daily.date,
+            y=daily.conversions,
+            name="Conversions",
+            line=dict(color="#0d9488", width=3),
         ),
         secondary_y=True,
     )
@@ -35,6 +52,7 @@ def platform_chart(summary: pd.DataFrame, measure: str) -> go.Figure:
         x="platform",
         y=measure,
         color="platform",
+        color_discrete_map=PLATFORM_COLORS,
         labels={measure: label, "platform": "Platform"},
         title=f"{label} by platform",
     )
@@ -48,6 +66,7 @@ def trend_chart(trend: pd.DataFrame, measure: str) -> go.Figure:
         x="period_start",
         y=measure,
         color="platform",
+        color_discrete_map=PLATFORM_COLORS,
         markers=True,
         labels={"period_start": "Period start", measure: label},
         title=f"{label} over time",
@@ -74,7 +93,7 @@ def funnel_chart(df: pd.DataFrame) -> go.Figure:
             textinfo="text",
             textposition="outside",
             textfont=dict(color="#0f172a"),
-            marker=dict(color=["#2563eb", "#0891b2", "#059669"]),
+            marker=dict(color=["#7c3aed", "#6366f1", "#14b8a6"]),
             hovertemplate="%{y}: %{x:,.0f}<extra></extra>",
         )
     )
