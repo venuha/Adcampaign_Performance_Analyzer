@@ -47,7 +47,7 @@ Open the local URL printed by Streamlit, usually `http://localhost:8501`.
 │       └── views.py               # Four dashboard views
 ├── data/sample_campaign_data.csv  # Fictional example data
 ├── tests/                        # Unit and Streamlit integration tests
-├── docs/                         # Data dictionary, architecture, cohort guide
+├── docs/                         # Data dictionary and architecture
 ├── .github/workflows/ci.yml       # Automated lint, format, and test checks
 ├── .streamlit/config.toml         # Theme and application configuration
 ├── requirements.txt              # Tested runtime dependency versions
@@ -107,10 +107,3 @@ The bundled CSV is public-safe synthetic data. Local virtual environments,
 Python caches, `.env` files, Streamlit secrets, and `data/private/` are excluded
 from Git. Uploads are processed by the running application and are not written
 to disk by this code. CSV uploads to a hosted app are sent to that hosting server.
-
-## Cohort project
-
-This project implements the ad campaign analyzer path. The
-[cohort guide](docs/cohort-guide.txt) includes suggested iterations and a demo
-outline. Record your actual prompts, screenshots, changes, and learnings for
-your submission.
